@@ -4,9 +4,23 @@ import numpy as np
 import pandas as pd
 from bokeh.plotting import figure
 from bokeh.models import Legend
+from bokeh.layouts import column
 
 st.set_page_config(layout='wide')
 st.title("Income vs. Motivation")
+col1, col2 = st.columns((2,1))
+
+st.markdown("""
+<style>
+div[data-testid="stHorizontalBlock"] > div:nth-of-type(2) {
+  background-color: #d9d9d9;
+  border-radius: 20px;
+}
+div[data-testid="stBlock"] {
+	padding: 20px;
+}
+</style>
+    """, unsafe_allow_html=True)
 
 
 def calc_scarcity(income):
@@ -35,8 +49,8 @@ def calc_happiness(income, personality):
     elif income > 75000:
         return 0.5+(personality*0.5)
 
-incentive = st.sidebar.slider("Incentive", 5000,20000,10000)
-stocastic = st.sidebar.checkbox("Make Personality a Stocastic variable")
+incentive = col2.slider("Incentive", 5000,20000,10000)
+stocastic = col2.checkbox("Make Personality a Stocastic variable")
 
 
 motivation_data = []
@@ -52,7 +66,7 @@ for income in range(10000,90000,5000):
 	intrinsic_data.append(intrinsic_motivation)
 	motivation_data.append((calc_extrinsic_motivation(income, incentive)+intrinsic_motivation))
 
-p = figure(x_axis_label="income",y_axis_label="motivation", width=700, height=350)
+p = figure(x_axis_label="income",y_axis_label="motivation", height=350) #width=700, height=350
 
 motivation = [motivation_data, extrinsic_data, intrinsic_data]
 xs = [list(range(20000,80000,5000)), list(range(20000,80000,5000)), list(range(20000,80000,5000))]
@@ -64,4 +78,6 @@ my_legend = Legend(items=[("Total Motivation" , [mot]), ("Extrinsic Motivation",
 
 p.add_layout(my_legend, 'right')
 
-st.bokeh_chart(p)
+column([p], sizing_mode="stretch_width")
+
+col1.bokeh_chart(p)
