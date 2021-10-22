@@ -74,9 +74,9 @@ xs = [list(range(20000,80000,5000)), list(range(20000,80000,5000)), list(range(2
 mot = p.line(list(range(10000,90000,5000)), motivation_data, color=(255,0,0))
 ext = p.line(list(range(10000,90000,5000)), extrinsic_data, color=(0,255,0))
 intr = p.line(list(range(10000,90000,5000)), intrinsic_data, color=(0,0,255))
-my_legend = Legend(items=[("Total Motivation" , [mot]), ("Extrinsic Motivation", [ext]), ("Intrinsic Motivation", [intr])])
+my_legend = Legend(items=[("Total Motivation" , [mot]), ("Extrinsic Motivation", [ext]), ("Intrinsic Motivation", [intr])], orientation="horizontal")
 
-p.add_layout(my_legend, 'right')
+p.add_layout(my_legend, 'below')
 
 column([p], sizing_mode="stretch_width")
 
